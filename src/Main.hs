@@ -29,12 +29,16 @@ main = do
   -- print res
   let ls = T.lines (T.decodeUtf8 res)
   -- print ls
-  let ls' = [ l | l <- ls, T.isInfixOf "error[LIQUID]" l ]
+  let ls' = [ l | l <- ls, errorPattern `T.isInfixOf`  l ]
   -- print ls'
   let jIns = [ e | l <- ls', e <- Mb.maybeToList (tDecode l) ]
   -- print jIns
   let jOut = convert jIns
   encodeFile outFile jOut
+
+
+errorPattern = "\"level\":\"error\""
+-- errorPattern = "error[LIQUID]"
 
 mkOutFile :: FilePath -> FilePath
 mkOutFile inFile = inFile ++ ".json"
