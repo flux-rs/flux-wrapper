@@ -85,21 +85,21 @@ instance ToJSON JOut where
 
 convert :: [JIn] -> JOut
 convert []   = MkOut Safe   [] mempty
-convert jIns = MkOut Unsafe (convert1 <$> jIns) mempty
+convert jIns = MkOut Unsafe [ e | Just e <- convert1 <$> jIns ] mempty
 
-convert1 :: JIn -> Error
-convert1 jIn = MkError msg (mkStart sps) (mkStop sps)
+convert1 :: JIn -> Maybe Error
+convert1 jIn = MkError msg <$> mkStart sps <*> mkStop sps
   where
     msg      = message_in jIn
     sps      = spans jIn
 
-mkStart :: [Span] -> Pos
-mkStart (sp:_) = MkPos (line_start sp) (column_start sp)
-mkStart _      = error "malformed output from liquid-rust"
+mkStart :: [Span] -> Maybe Pos
+mkStart (sp:_) = Just $ MkPos (line_start sp) (column_start sp)
+mkStart _      = Nothing -- error "malformed output from liquid-rust"
 
-mkStop :: [Span] -> Pos
-mkStop (sp:_) = MkPos (line_end sp) (column_end sp)
-mkStop _      = error "malformed output from liquid-rust"
+mkStop :: [Span] -> Maybe Pos
+mkStop (sp:_) = Just $ MkPos (line_end sp) (column_end sp)
+mkStop _      = Nothing -- error "malformed output from liquid-rust"
 
 -------------------------------------------------------------------------
 -- | Input JSON from `flux`
