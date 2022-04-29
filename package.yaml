@@ -1,0 +1,27 @@
+name:                flux-wrapper
+version:             0.1.0.0
+github:              "liquid-rust/flux-wrapper"
+license:             MIT
+author:              "Ranjit Jhala"
+maintainer:          "jhala@cs.ucsd.edu"
+copyright:           "2022 Ranjit Jhala"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/liquid-rust/flux-wrapper#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- process
+- directory
+- filepath
+- containers
+- aeson
+- text
+- bytestring
+
+executables:
+  flux:
+    main: Main.hs
+    source-dirs: src

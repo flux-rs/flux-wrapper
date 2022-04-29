@@ -1,0 +1,14 @@
+resolver: lts-18.10
+compiler: ghc-8.10.7
+
+packages:
+- '.'
+
+extra-deps:
+- clock-0.7.2
+- csv-table-0.1.0.1
+- smtp-mail-0.3.0.0
+
+
+flags: {}
+extra-package-dbs: []
